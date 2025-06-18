@@ -1,0 +1,143 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+header {
+   
+    background: hsla(235.6,87.8%,47.5%,0.855);
+    color: #fff;
+    font-family: cursive;
+    font-weight: bold;
+    padding: 1rem 0;
+    position: sticky; /* Make header sticky */
+    top: 0;
+    z-index: 1000; /* Ensure header stays on top */
+}
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+header .container {
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+}
+header .container {
+    margin-left: 200px;
+    margin-right: 200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+}
+ img {
+ position: relative;
+ border-radius: 50%;
+}
+
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#job-listings h2, #application-form-section h2 {
+    color: rgba(255,41,41,0.965);
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.job-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.job-card h3 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+.apply-btn, #jobApplicationForm button[type="submit"] {
+    display: inline-block;
+    background: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1em;
+}
+
+.apply-btn:hover, #jobApplicationForm button[type="submit"]:hover {
+    background: #0056b3;
+}
+
+#jobApplicationForm div {
+    margin-bottom: 15px;
+}
+
+#jobApplicationForm label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#jobApplicationForm input[type="text"],
+#jobApplicationForm input[type="email"],
+#jobApplicationForm input[type="tel"],
+#jobApplicationForm input[type="file"],
+#jobApplicationForm textarea {
+    width: calc(100% - 22px); /* Account for padding and border */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important for width calculation */
+}
+
+#jobApplicationForm input[readonly] {
+    background-color: #e9ecef;
+}
+
+#formMessage {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+#formMessage.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+#formMessage.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    position: sticky;
+    z-index: 1000;
+    bottom: 0;
+    background: #ffae00;
+    color: #fff;
+    margin-top: 30px;
+}

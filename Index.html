@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+      <div class="container">
+        <h1>Tseg.T Job Portal</h1>
+        <img src="tseg.png" width="100px" height="100px" alt=" my photo">
+      </div>
+    </header>
+
+    <main>
+        <section id="job-listings">
+            <h2>Current Job Openings</h2>
+            <div class="job-card">
+                <h3>Software Engineer - Frontend</h3>
+                <p>Location: Kore Zone/Madayne</p>
+                <p>Description: We are looking for a skilled frontend developer proficient in React, HTML, CSS, and JS.</p>
+                <button class="apply-btn" data-job-title="Software Engineer - Frontend">Apply Now</button>
+            </div>
+            <div class="job-card">
+                <h3>Product Manager</h3>
+                <p>Location: Amaro Kelle/Kore Zone</p>
+                <p>Description: Seeking an experienced Product Manager to lead our new product initiatives.</p>
+                <button class="apply-btn" data-job-title="Product Manager">Apply Now</button>
+            </div>
+            <div class="job-card">
+                <h3>Civil Engineer</h3>
+                <p>Location: Amaro Kelle/Kore Zone</p>
+                <p>Description: Seeking an experienced Project Manager to lead our new Road Constraction Project.</p>
+                <button class="apply-btn" data-job-title="Civil Engineer">Apply Now</button>
+            </div>
+            <div class="job-card">
+                <h3>Medical Doctor</h3>
+                <p>Location: Amaro Kelle/Kore Zone</p>
+                <p>Description: Seeking an experienced Medical Doctore for Kelle town referal hospital.</p>
+                <button class="apply-btn" data-job-title="Medical Doctor">Apply Now</button>
+            </div>
+            <div class="job-card">
+                <h3>Medical Doctor</h3>
+                <p>Location: Amaro Kelle/Kore Zone</p>
+                <p>Description: Seeking an experienced Medical Doctore for Kelle town referal hospital.</p>
+                <button class="apply-btn" data-job-title="Medical Doctor">Apply Now</button>
+            </div>
+            <!-- Add more job listings as needed -->
+        </section>
+
+        <hr>
+
+        <section id="application-form-section" style="display:none;">
+            <h2>Apply for <span id="applying-for-job-title"></span></h2>
+            <form id="jobApplicationForm">
+                <div>
+                    <label for="applicantName">Full Name:</label>
+                    <input type="text" id="applicantName" name="applicantName" required>
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div>
+                    <label for="jobTitleHidden">Applying for (auto-filled):</label>
+                    <input type="text" id="jobTitleHidden" name="jobTitle" readonly>
+                </div>
+                <div>
+                    <label for="cvFile">Upload CV (PDF, DOC, DOCX):</label>
+                    <input type="file" id="cvFile" name="cvFile" accept=".pdf,.doc,.docx" required>
+                </div>
+                <div>
+                    <label for="credentialsFile">Upload Other Credentials (Optional - PDF, JPG, PNG):</label>
+                    <input type="file" id="credentialsFile" name="credentialsFile" accept=".pdf,.jpg,.jpeg,.png">
+                </div>
+                <div>
+                    <label for="notes">Additional Notes (Optional):</label>
+                    <textarea id="notes" name="notes" rows="4"></textarea>
+                </div>
+                <button type="submit" id="submitBtn">Submit Application</button>
+                <div id="formMessage"></div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Tseganeh T. All rights reserved.</p>
+                    <p><a href="privacy.html">Privacy Policy</a> || <a href="terms.html">Terms of Use</a></p>
+    </footer>
+  <script>
+   document.addEventListener('DOMContentLoaded', () => {
+    const jobApplicationForm = document.getElementById('jobApplicationForm');
+    const formMessage = document.getElementById('formMessage');
+    const submitBtn = document.getElementById('submitBtn');
+    const applicationFormSection = document.getElementById('application-form-section');
+    const applyingForJobTitleSpan = document.getElementById('applying-for-job-title');
+    const jobTitleHiddenInput = document.getElementById('jobTitleHidden');
+
+    // --- IMPORTANT: PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE ---
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHT58EOGuOrJhQiy0zBkxBk8FcRAOQWSb2hKjjcsQTnbPLOWTnCsWcv5jVIPYY2m6A3w/exec"; 
+    // --- ---
+
+    // Handle "Apply Now" button clicks
+    document.querySelectorAll('.apply-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const jobTitle = this.dataset.jobTitle;
+            applyingForJobTitleSpan.textContent = jobTitle;
+            jobTitleHiddenInput.value = jobTitle;
+            applicationFormSection.style.display = 'block';
+            applicationFormSection.scrollIntoView({ behavior: 'smooth' });
+            jobApplicationForm.reset(); // Clear previous entries
+            formMessage.textContent = '';
+            formMessage.className = '';
+        });
+    });
+
+
+    if (jobApplicationForm) {
+        jobApplicationForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            formMessage.textContent = 'Submitting... Please wait.';
+            formMessage.className = '';
+            submitBtn.disabled = true;
+
+            const formData = {
+                applicantName: document.getElementById('applicantName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                jobTitle: document.getElementById('jobTitleHidden').value,
+                notes: document.getElementById('notes').value,
+                cvFile: null,
+                cvFileName: null,
+                cvMimeType: null,
+                credentialsFile: null,
+                credentialsFileName: null,
+                credentialsMimeType: null
+            };
+
+            // --- File Handling ---
+            const cvFileInput = document.getElementById('cvFile');
+            if (cvFileInput.files.length > 0) {
+                const file = cvFileInput.files[0];
+                formData.cvFileName = file.name;
+                formData.cvMimeType = file.type;
+                formData.cvFile = await readFileAsBase64(file);
+            } else {
+                // CV is required, but HTML `required` attribute handles client-side.
+                // If for some reason it's bypassed, GAS will simply store an empty link.
+            }
+
+            const credentialsFileInput = document.getElementById('credentialsFile');
+            if (credentialsFileInput.files.length > 0) {
+                const file = credentialsFileInput.files[0];
+                formData.credentialsFileName = file.name;
+                formData.credentialsMimeType = file.type;
+                formData.credentialsFile = await readFileAsBase64(file);
+            }
+            // --- End File Handling ---
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'cors', // Important for cross-origin requests
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json', // Sending JSON to Apps Script
+                    },
+                    body: JSON.stringify(formData) // Body data type must match "Content-Type" header
+                });
+
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    formMessage.textContent = result.message + " CV Link: " + (result.cv || 'N/A') + ", Credentials Link: " + (result.cred || 'N/A');
+                    formMessage.className = 'success';
+                    jobApplicationForm.reset();
+                    applicationFormSection.style.display = 'none'; // Optionally hide form after success
+                } else {
+                    formMessage.textContent = 'Error: ' + result.message;
+                    formMessage.className = 'error';
+                }
+
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                formMessage.textContent = 'An unexpected error occurred. Please try again. Check console for details.';
+                formMessage.className = 'error';
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+    }
+
+    // Helper function to read file as Base64
+    function readFileAsBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result); // result is base64 data URL
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+        });
+    }
+});
+
+  </script>
+</body>
+</html>
